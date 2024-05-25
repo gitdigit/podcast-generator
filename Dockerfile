@@ -1,15 +1,19 @@
-FROM ubuntu:latest
+# Use the latest Windows base image
+FROM mcr.microsoft.com/windows/servercore:ltsc2019
 
-RUN apt-get update && apt-get install  -y \
-    python3.9 \
-    python3-pip \
-    git
+# Install Python, pip, and Git using Chocolatey
+RUN powershell -Command \
+    Set-ExecutionPolicy Bypass -Scope Process -Force; \
+    [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; \
+    iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1')); \
+    choco install -y python3 git
 
-RUN pip3 install PyYAML
+# Install PyYAML using pip
+RUN pip install PyYAML
 
-COPY feed.py /us/bin/feed.py
+# Copy your application files into the container
+COPY feed.py /usr/bin/feed.py
 COPY entrypoint.sh /entrypoint.sh
 
-ENTRYPOINT [ "/entrypoint.sh"]
-
-#generate the server
+# Set the entrypoint for your application
+ENTRYPOINT ["/entrypoint.sh"]
