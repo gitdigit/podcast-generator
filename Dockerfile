@@ -1,5 +1,5 @@
-# Use the latest Windows base image
-FROM mcr.microsoft.com/windows/servercore:ltsc2019
+# Use the latest Windows Nano Server base image
+FROM mcr.microsoft.com/windows/nanoserver:ltsc2019
 
 # Install Python, pip, and Git using Chocolatey
 RUN powershell -Command \
