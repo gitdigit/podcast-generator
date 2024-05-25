@@ -1,9 +1,11 @@
 FROM ubuntu:latest
 
-RUN apt-get update
-RUN apt-get install -y python3.12 python3-pip git
+RUN apt-get update && apt-get install  -y \
+    python3 \
+    python3-pip \
+    git
 
-RUN pip install PyYAML==6.0.1
+RUN pip3 install pyyaml
 
 COPY feed.py /us/bin/feed.py
 COPY entrypoint.sh /entrypoint.sh
